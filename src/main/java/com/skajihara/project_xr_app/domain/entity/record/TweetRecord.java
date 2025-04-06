@@ -1,18 +1,21 @@
 package com.skajihara.project_xr_app.domain.entity.record;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
+@AllArgsConstructor
+@Entity
 @Table(name = "TWEETS")
 public class TweetRecord {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "account_id", nullable = false, length = 10)
+    @Column(nullable = false, length = 20)
     private String accountId;
 
     @Column(nullable = false, length = 200)
@@ -22,24 +25,26 @@ public class TweetRecord {
     private String image;
 
     @Column(nullable = false)
-    private int likes = 0;
+    private int likes;
 
     @Column(nullable = false)
-    private int retweets = 0;
+    private int retweets;
 
     @Column(nullable = false)
-    private int replies = 0;
+    private int replies;
 
     @Column(nullable = false)
-    private int views = 0;
+    private int views;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private Date datetime = new Date();
+    @Column(nullable = false)
+    private LocalDateTime datetime;
 
     @Column(length = 50)
     private String location;
 
     @Column(nullable = false)
-    private boolean deleteFlag = false;
+    private int deleteFlag;
+
+    public TweetRecord() {
+    }
 }
