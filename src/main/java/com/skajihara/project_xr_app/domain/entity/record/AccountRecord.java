@@ -1,11 +1,16 @@
 package com.skajihara.project_xr_app.domain.entity.record;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.LocalDate;
 
 @Data
+@AllArgsConstructor
 @Entity
 @Table(name = "ACCOUNTS")
 public class AccountRecord {
@@ -20,11 +25,11 @@ public class AccountRecord {
     @Column(name = "bio", length = 200, nullable = false)
     private String bio;
 
-    @Column(name = "icon", length = 100, nullable = false, columnDefinition = "varchar(100) default '/src/assets/icons/user/default_icon.svg'")
-    private String icon = "/src/assets/icons/user/default_icon.svg";
+    @Column(name = "icon", length = 100, nullable = false)
+    private String icon;
 
-    @Column(name = "header_photo", length = 100, nullable = false, columnDefinition = "varchar(100) default '/src/assets/images/header/default_header.jpg'")
-    private String headerPhoto = "/src/assets/images/header/default_header.jpg";
+    @Column(name = "header_photo", length = 100, nullable = false)
+    private String headerPhoto;
 
     @Column(name = "location", length = 50)
     private String location;
@@ -32,18 +37,21 @@ public class AccountRecord {
     @Column(name = "birthday")
     private LocalDate birthday;
 
-    @Column(name = "registered", nullable = false, columnDefinition = "date default current_date")
-    private LocalDate registered = LocalDate.now();
+    @Column(name = "registered", nullable = false)
+    private LocalDate registered;
 
-    @Column(name = "following", nullable = false, columnDefinition = "int default 0")
-    private int following = 0;
+    @Column(name = "following", nullable = false)
+    private int following;
 
-    @Column(name = "follower", nullable = false, columnDefinition = "int default 0")
-    private int follower = 0;
+    @Column(name = "follower", nullable = false)
+    private int follower;
 
-    @Column(name = "valid_flag", nullable = false, columnDefinition = "boolean default true")
-    private boolean validFlag = true;
+    @Column(name = "valid_flag", nullable = false)
+    private int validFlag;
 
-    @Column(name = "delete_flag", nullable = false, columnDefinition = "boolean default false")
-    private boolean deleteFlag = false;
+    @Column(name = "delete_flag", nullable = false)
+    private int deleteFlag;
+
+    public AccountRecord() {
+    }
 }
