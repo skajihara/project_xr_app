@@ -160,9 +160,6 @@ public class TweetController {
     }
 
     private TweetRecord convertToTweetRecord(TweetModel model) {
-        if (model == null) {
-            return null;
-        }
         TweetRecord tweet = new TweetRecord();
         tweet.setId(model.getId());
         tweet.setAccountId(model.getAccountId());

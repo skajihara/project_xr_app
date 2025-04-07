@@ -3,7 +3,7 @@ package com.skajihara.project_xr_app.domain.entity.record;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -13,7 +13,7 @@ public class ScheduledTweetRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "account_id", nullable = false, length = 10)
+    @Column(nullable = false, length = 20)
     private String accountId;
 
     @Column(nullable = false, length = 200)
@@ -25,14 +25,15 @@ public class ScheduledTweetRecord {
     @Column(length = 50)
     private String location;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name="scheduled_datetime", nullable = false, columnDefinition = "TIMESTAMP")
-    private Date scheduledDatetime;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name="created_datetime", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private Date createdDatetime = new Date();
+    @Column(nullable = false)
+    private LocalDateTime scheduledDatetime;
 
     @Column(nullable = false)
-    private boolean deleteFlag = false;
+    private LocalDateTime createdDatetime;
+
+    @Column(nullable = false)
+    private int deleteFlag;
+
+    public ScheduledTweetRecord() {
+    }
 }
