@@ -39,31 +39,31 @@ public class TweetService {
     }
 
     /**
-     * 最新N件のツイート情報を取得する
+     * 最新指定件数のツイート情報を取得する
      *
      * @param limit 取得対象件数
-     * @return 全ツイート
+     * @return 最新指定件数ツイート情報
      */
     public List<TweetRecord> getRecentTweets(int limit) {
         return tweetRepository.selectRecentTweets(limit);
     }
 
     /**
-     * 特定アカウントの最新N件のツイートを取得する
+     * 特定アカウントの最新指定件数のツイートを取得する
      *
      * @param accountId アカウントID
-     * @param limit     取得件数
-     * @return 全ツイート
+     * @param limit     取得対象件数
+     * @return 特定アカウントの指定件数ツイート情報
      */
     public List<TweetRecord> getTweetsByAccountId(String accountId, int limit) {
         return tweetRepository.selectRecentTweetsByAccountId(accountId, limit);
     }
 
     /**
-     * 1件のツイート情報を登録する
+     * 1件のツイート情報を投稿する
      *
-     * @param tweet ツイート情報
-     * @return 登録件数
+     * @param tweet 投稿ツイート情報
+     * @return 投稿結果
      */
     public int postTweet(TweetRecord tweet) {
         int result = tweetRepository.insert(tweet);
@@ -76,9 +76,9 @@ public class TweetService {
     /**
      * 1件のツイート情報を更新する
      *
-     * @param tweetId ツイートID
-     * @param tweet   ツイート情報
-     * @return 更新件数
+     * @param tweetId 更新対象ツイートID
+     * @param tweet   　更新ツイート情報
+     * @return 更新結果
      */
     public int updateTweet(int tweetId, TweetRecord tweet) {
         TweetRecord target = tweetRepository.selectTweet(tweetId);
@@ -95,8 +95,8 @@ public class TweetService {
     /**
      * 1件のツイート情報を削除する
      *
-     * @param tweetId ツイートID
-     * @return 削除件数
+     * @param tweetId 削除対象ツイートID
+     * @return 削除結果
      */
     public int deleteTweet(int tweetId) {
         TweetRecord target = tweetRepository.selectTweet(tweetId);

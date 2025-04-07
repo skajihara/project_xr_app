@@ -32,7 +32,7 @@ public class AccountController {
      * 1件のアカウント情報を取得する
      *
      * @param id アカウントID
-     * @return 全アカウント情報
+     * @return 1件のアカウント情報
      */
     @GetMapping("/{id}")
     public AccountModel getAccount(@PathVariable String id) throws NotFoundException {
