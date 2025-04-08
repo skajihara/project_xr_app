@@ -55,7 +55,7 @@ public interface TweetRepository extends JpaRepository<TweetRecord, Integer> {
      * @param tweet 登録ツイート情報
      * @return 登録件数
      */
-    @Modifying
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Transactional
     @Query("INSERT INTO TweetRecord (accountId, text, image, likes, retweets, replies, views, datetime, location, deleteFlag) " +
             "VALUES (:#{#tweet.accountId}, :#{#tweet.text}, :#{#tweet.image}, :#{#tweet.likes}, " +
@@ -69,7 +69,7 @@ public interface TweetRepository extends JpaRepository<TweetRecord, Integer> {
      * @param tweet   　更新ツイート情報
      * @return 更新結果
      */
-    @Modifying
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Transactional
     @Query("UPDATE TweetRecord t SET " +
             "t.text = :#{#tweet.text}, " +
@@ -89,7 +89,7 @@ public interface TweetRepository extends JpaRepository<TweetRecord, Integer> {
      * @param tweetId 削除対象ツイートID
      * @return 削除結果
      */
-    @Modifying
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Transactional
     @Query("UPDATE TweetRecord t SET t.deleteFlag = 1 WHERE t.id = :tweetId")
     int delete(@Param("tweetId") int tweetId);

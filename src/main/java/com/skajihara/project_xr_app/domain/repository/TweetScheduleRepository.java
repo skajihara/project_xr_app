@@ -37,7 +37,7 @@ public interface TweetScheduleRepository extends JpaRepository<ScheduledTweetRec
      * @param schedule 予約ツイート情報
      * @return 登録件数
      */
-    @Modifying
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Transactional
     @Query("INSERT INTO ScheduledTweetRecord (accountId, text, image, location, scheduledDatetime, createdDatetime, deleteFlag) " +
             "VALUES (:#{#schedule.accountId}, :#{#schedule.text}, :#{#schedule.image}, :#{#schedule.location}, :#{#schedule.scheduledDatetime}, :#{#schedule.createdDatetime}, 0)")
@@ -50,7 +50,7 @@ public interface TweetScheduleRepository extends JpaRepository<ScheduledTweetRec
      * @param updatedSchedule 予約ツイート更新情報
      * @return 更新件数
      */
-    @Modifying
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Transactional
     @Query("UPDATE ScheduledTweetRecord t SET " +
             "t.text = :#{#updatedSchedule.text}, " +
@@ -67,7 +67,7 @@ public interface TweetScheduleRepository extends JpaRepository<ScheduledTweetRec
      * @param scheduleId 削除対象予約ツイートID
      * @return 削除件数
      */
-    @Modifying
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Transactional
     @Query("UPDATE ScheduledTweetRecord t SET t.deleteFlag = 1 WHERE t.id = :scheduleId")
     int delete(@Param("scheduleId") int scheduleId);
