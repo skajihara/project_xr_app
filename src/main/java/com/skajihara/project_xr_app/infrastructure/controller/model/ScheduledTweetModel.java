@@ -1,15 +1,15 @@
 package com.skajihara.project_xr_app.infrastructure.controller.model;
 
-import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Data
-@Table(name = "SCHEDULED_TWEETS")
+@AllArgsConstructor
 public class ScheduledTweetModel {
 
     @PositiveOrZero
@@ -37,4 +37,7 @@ public class ScheduledTweetModel {
 
     @NotNull
     private int deleteFlag;
+
+    public ScheduledTweetModel() {
+    }
 }

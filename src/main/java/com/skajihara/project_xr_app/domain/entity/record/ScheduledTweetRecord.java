@@ -1,11 +1,13 @@
 package com.skajihara.project_xr_app.domain.entity.record;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Data
+@AllArgsConstructor
 @Entity
 @Table(name = "SCHEDULED_TWEETS")
 public class ScheduledTweetRecord {

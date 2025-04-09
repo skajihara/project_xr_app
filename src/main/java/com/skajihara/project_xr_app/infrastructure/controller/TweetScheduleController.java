@@ -112,9 +112,6 @@ public class TweetScheduleController {
     }
 
     private ScheduledTweetModel convertToResponseModel(ScheduledTweetRecord serviceResult) {
-        if (serviceResult == null) {
-            return new ScheduledTweetModel();
-        }
         ScheduledTweetModel responseResult = new ScheduledTweetModel();
         responseResult.setId(serviceResult.getId());
         responseResult.setAccountId(serviceResult.getAccountId());
