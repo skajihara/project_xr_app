@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -30,6 +31,16 @@ public interface TweetScheduleRepository extends JpaRepository<ScheduledTweetRec
      */
     @Query("SELECT t FROM ScheduledTweetRecord t WHERE t.accountId = :accountId AND t.deleteFlag = 0 ORDER BY t.scheduledDatetime ASC")
     List<ScheduledTweetRecord> selectScheduledTweetsByAccountId(@Param("accountId") String accountId);
+
+    /**
+     * 予約日時を過ぎている予約ツイート情報を取得する
+     *
+     * @param lastProcessedId 最後に処理した予約ツイートID
+     * @param now             現在日時
+     * @return 条件に合致する予約ツイートのリスト
+     */
+    @Query("SELECT t FROM ScheduledTweetRecord t WHERE t.id > :lastProcessedId AND t.scheduledDatetime < :now AND t.deleteFlag = 0 ORDER BY t.scheduledDatetime ASC, t.id ASC")
+    List<ScheduledTweetRecord> selectScheduledTweetsForBatch(@Param("lastProcessedId") int lastProcessedId, @Param("now") LocalDateTime now);
 
     /**
      * 1件の予約ツイートを登録する
