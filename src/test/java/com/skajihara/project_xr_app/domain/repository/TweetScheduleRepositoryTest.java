@@ -107,6 +107,86 @@ class TweetScheduleRepositoryTest {
     }
 
     /**
+     * バッチ処理対象ツイート取得
+     * ケース：正常系
+     * コンディション：対象データあり scheduledDatetime・idの昇順
+     */
+    @Test
+    void selectScheduledTweetsForBatch_Success001() {
+        // モックデータ
+        LocalDateTime now = LocalDateTime.now().withNano(0);
+
+        ScheduledTweetRecord tweet1 = new ScheduledTweetRecord();
+        tweet1.setAccountId("batch_user");
+        tweet1.setText("バッチ投稿1");
+        tweet1.setImage("/img/batch1.jpg");
+        tweet1.setLocation("東京");
+        tweet1.setScheduledDatetime(now.minusSeconds(20));
+        tweet1.setCreatedDatetime(now.minusMinutes(10));
+        tweet1.setDeleteFlag(0);
+
+        ScheduledTweetRecord tweet2 = new ScheduledTweetRecord();
+        tweet2.setAccountId("batch_user");
+        tweet2.setText("バッチ投稿2");
+        tweet2.setImage("/img/batch2.jpg");
+        tweet2.setLocation("大阪");
+        tweet2.setScheduledDatetime(now.minusSeconds(10)); // 後の時間
+        tweet2.setCreatedDatetime(now.minusMinutes(9));
+        tweet2.setDeleteFlag(0);
+
+        tweetScheduleRepository.insert(tweet1);
+        tweetScheduleRepository.insert(tweet2);
+
+        // 登録された全データ取得して最小IDを特定
+        List<ScheduledTweetRecord> all = tweetScheduleRepository.selectScheduledTweetsByAccountId("batch_user");
+        int minId = all.stream()
+                .mapToInt(ScheduledTweetRecord::getId)
+                .min()
+                .orElseThrow();
+
+        // テスト実行
+        List<ScheduledTweetRecord> result = tweetScheduleRepository.selectScheduledTweetsForBatch(minId - 1, now);
+
+        // テスト結果
+        assertThat(result.size(), is(2));
+
+        // 順序検証：scheduledDatetime ASC, id ASC
+        for (int i = 0; i < result.size() - 1; i++) {
+            ScheduledTweetRecord current = result.get(i);
+            ScheduledTweetRecord next = result.get(i + 1);
+            LocalDateTime dt1 = current.getScheduledDatetime();
+            LocalDateTime dt2 = next.getScheduledDatetime();
+            int id1 = current.getId();
+            int id2 = next.getId();
+
+            if (dt1.isEqual(dt2)) {
+                assertThat(id1 < id2, is(true));
+            } else {
+                assertThat(dt1.isBefore(dt2), is(true));
+            }
+        }
+    }
+
+    /**
+     * バッチ処理対象ツイート取得
+     * ケース：正常系
+     * コンディション：対象データなし
+     */
+    @Test
+    void selectScheduledTweetsForBatch_Success002() {
+
+        // テストデータ
+        LocalDateTime now = LocalDateTime.now().withNano(0);
+        int lastProcessedId = Integer.MAX_VALUE;
+        // テスト実行
+        List<ScheduledTweetRecord> result = tweetScheduleRepository.selectScheduledTweetsForBatch(lastProcessedId, now);
+
+        // テスト結果
+        assertThat(result, is(notNullValue()));
+        assertThat(result.size(), is(0));
+    }
+
+    /**
      * 予約ツイート登録
      * ケース：正常系
      * コンディション：登録成功
