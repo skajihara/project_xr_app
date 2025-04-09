@@ -14,9 +14,9 @@ import java.util.List;
 public interface TweetRepository extends JpaRepository<TweetRecord, Integer> {
 
     /**
-     * 対象1件のツイート情報を取得する
+     * 1件のツイート情報を取得する
      *
-     * @param tweetId 取得対象件数
+     * @param tweetId ツイートID
      * @return １件のツイート情報
      */
     @Query("SELECT t FROM TweetRecord t WHERE t.id = :tweetId AND t.deleteFlag = 0")
@@ -31,20 +31,20 @@ public interface TweetRepository extends JpaRepository<TweetRecord, Integer> {
     List<TweetRecord> selectAllTweets();
 
     /**
-     * 最新N件のツイート情報を取得する
+     * 最新指定件数のツイート情報を取得する
      *
      * @param limit 取得対象件数
-     * @return 全ツイート
+     * @return 最新指定件数ツイート情報
      */
     @Query("SELECT t FROM TweetRecord t WHERE t.deleteFlag = 0 ORDER BY t.datetime DESC LIMIT :limit")
     List<TweetRecord> selectRecentTweets(@Param("limit") int limit);
 
     /**
-     * 特定アカウントの最新N件のツイートを取得する
+     * 特定アカウントの最新指定件数のツイートを取得する
      *
      * @param accountId アカウントID
-     * @param limit     取得件数
-     * @return 全ツイート
+     * @param limit     取得対象件数
+     * @return 特定アカウントの指定件数ツイート情報
      */
     @Query("SELECT t FROM TweetRecord t WHERE t.accountId = :accountId AND t.deleteFlag = 0 ORDER BY t.datetime DESC LIMIT :limit")
     List<TweetRecord> selectRecentTweetsByAccountId(@Param("accountId") String accountId, @Param("limit") int limit);
@@ -52,10 +52,10 @@ public interface TweetRepository extends JpaRepository<TweetRecord, Integer> {
     /**
      * 1件のツイート情報を登録する
      *
-     * @param tweet ツイート情報
+     * @param tweet 登録ツイート情報
      * @return 登録件数
      */
-    @Modifying
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Transactional
     @Query("INSERT INTO TweetRecord (accountId, text, image, likes, retweets, replies, views, datetime, location, deleteFlag) " +
             "VALUES (:#{#tweet.accountId}, :#{#tweet.text}, :#{#tweet.image}, :#{#tweet.likes}, " +
@@ -65,11 +65,11 @@ public interface TweetRepository extends JpaRepository<TweetRecord, Integer> {
     /**
      * 1件のツイート情報を更新する
      *
-     * @param tweetId ツイートID
-     * @param tweet   ツイート情報
-     * @return 更新件数
+     * @param tweetId 更新対象ツイートID
+     * @param tweet   　更新ツイート情報
+     * @return 更新結果
      */
-    @Modifying
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Transactional
     @Query("UPDATE TweetRecord t SET " +
             "t.text = :#{#tweet.text}, " +
@@ -86,10 +86,10 @@ public interface TweetRepository extends JpaRepository<TweetRecord, Integer> {
     /**
      * 1件のツイート情報を削除する
      *
-     * @param tweetId ツイートID
-     * @return 削除件数
+     * @param tweetId 削除対象ツイートID
+     * @return 削除結果
      */
-    @Modifying
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Transactional
     @Query("UPDATE TweetRecord t SET t.deleteFlag = 1 WHERE t.id = :tweetId")
     int delete(@Param("tweetId") int tweetId);

@@ -24,10 +24,10 @@ public class AccountService {
     }
 
     /**
-     * 全てのアカウント情報を取得する
+     * 1件のアカウント情報を取得する
      *
      * @param id アカウントID
-     * @return 全アカウント情報
+     * @return 1件のアカウント情報
      */
     public AccountRecord getAccount(String id) throws NotFoundException {
         AccountRecord account = accountRepository.selectAccount(id);

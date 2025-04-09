@@ -6,7 +6,6 @@ import com.skajihara.project_xr_app.infrastructure.service.TweetService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +27,7 @@ public class TweetController {
     /**
      * 1件のツイート情報を取得する
      *
-     * @param tweetId 取得対象件数
+     * @param tweetId ツイートID
      * @return １件のツイート情報
      */
     @GetMapping("/{tweetId}")
@@ -47,10 +46,10 @@ public class TweetController {
     }
 
     /**
-     * 最新N件のツイート情報を取得する
+     * 最新指定件数のツイート情報を取得する
      *
      * @param limit 取得対象件数
-     * @return 全ツイート
+     * @return 最新指定件数ツイート情報
      */
     @GetMapping("/recent")
     public List<TweetModel> getRecentTweets(@Positive @RequestParam(defaultValue = "20") int limit) {
@@ -58,11 +57,11 @@ public class TweetController {
     }
 
     /**
-     * 特定アカウントの最新N件のツイートを取得する
+     * 特定アカウントの最新指定件数のツイートを取得する
      *
      * @param accountId アカウントID
      * @param limit     取得対象件数
-     * @return 全ツイート
+     * @return 特定アカウントの指定件数ツイート情報
      */
     @GetMapping("/account/{accountId}")
     public List<TweetModel> getTweetsByAccountId(@PathVariable String accountId,
@@ -71,13 +70,13 @@ public class TweetController {
     }
 
     /**
-     * 1件のツイート情報を登録する
+     * 1件のツイート情報を投稿する
      *
      * @param postTweet 投稿ツイート情報
-     * @return 登録結果
+     * @return 投稿結果
      */
     @PostMapping
-    public ResponseEntity<Map<String, String>> postTweet(@Valid @NotNull @RequestBody TweetModel postTweet) throws BadRequestException {
+    public ResponseEntity<Map<String, String>> postTweet(@Valid @NotNull @RequestBody TweetModel postTweet) {
 
         TweetRecord tweet = convertToTweetRecord(postTweet);
         int result = tweetService.postTweet(tweet);
@@ -95,7 +94,7 @@ public class TweetController {
     /**
      * 1件のツイート情報を更新する
      *
-     * @param tweetId     ツイートID
+     * @param tweetId     更新対象ツイートID
      * @param updateTweet 　更新ツイート情報
      * @return 更新結果
      */
@@ -118,7 +117,7 @@ public class TweetController {
     /**
      * 1件のツイート情報を削除する
      *
-     * @param tweetId ツイートID
+     * @param tweetId 削除対象ツイートID
      * @return 削除結果
      */
     @DeleteMapping("/{tweetId}")
@@ -161,9 +160,6 @@ public class TweetController {
     }
 
     private TweetRecord convertToTweetRecord(TweetModel model) {
-        if (model == null) {
-            return null;
-        }
         TweetRecord tweet = new TweetRecord();
         tweet.setId(model.getId());
         tweet.setAccountId(model.getAccountId());

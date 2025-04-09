@@ -69,11 +69,18 @@ class TweetControllerTest {
      */
     @Test
     void getTweet_Success001() throws Exception {
+
+        // モックデータ
         TweetRecord tweet = createRecord(1, "user1", "Hello", null);
+
+        // モック設定
         when(tweetService.getTweet(1)).thenReturn(tweet);
 
+        // テスト実行
         MockHttpServletRequestBuilder req = get(BASE_PATH + "/1");
         MvcResult result = mockMvc.perform(req).andExpect(status().isOk()).andReturn();
+
+        // テスト結果
         TweetModel actual = objectMapper.readValue(result.getResponse().getContentAsString(), TweetModel.class);
         assertModel(actual, tweet);
         verify(tweetService, times(1)).getTweet(1);
@@ -86,8 +93,14 @@ class TweetControllerTest {
      */
     @Test
     void getTweet_Error001() throws Exception {
+
+        // モック設定
         when(tweetService.getTweet(999)).thenThrow(new TweetException("not found"));
+
+        // テスト実行
         mockMvc.perform(get(BASE_PATH + "/999")).andExpect(status().isNotFound());
+
+        // テスト結果
         verify(tweetService, times(1)).getTweet(999);
     }
 
@@ -98,16 +111,22 @@ class TweetControllerTest {
      */
     @Test
     void getAllTweets_Success001() throws Exception {
+
+        // モックデータ
         List<TweetRecord> tweets = Arrays.asList(
                 createRecord(1, "user1", "Tweet1", null),
                 createRecord(2, "user2", "Tweet2", null)
         );
+
+        // モック設定
         when(tweetService.getAllTweets()).thenReturn(tweets);
 
+        // テスト実行
         MockHttpServletRequestBuilder req = get(BASE_PATH);
         MvcResult result = mockMvc.perform(req).andExpect(status().isOk()).andReturn();
-        TweetModel[] actual = objectMapper.readValue(result.getResponse().getContentAsString(), TweetModel[].class);
 
+        // テスト結果
+        TweetModel[] actual = objectMapper.readValue(result.getResponse().getContentAsString(), TweetModel[].class);
         assertThat(actual.length, is(2));
         assertModel(actual[0], tweets.get(0));
         assertModel(actual[1], tweets.get(1));
@@ -121,9 +140,15 @@ class TweetControllerTest {
      */
     @Test
     void getAllTweets_Success002() throws Exception {
+
+        // モック設定
         when(tweetService.getAllTweets()).thenReturn(Collections.emptyList());
+
+        // テスト実行
         MockHttpServletRequestBuilder req = get(BASE_PATH);
         MvcResult result = mockMvc.perform(req).andExpect(status().isOk()).andReturn();
+
+        // テスト結果
         TweetModel[] actual = objectMapper.readValue(result.getResponse().getContentAsString(), TweetModel[].class);
         assertThat(actual.length, is(0));
         verify(tweetService, times(1)).getAllTweets();
@@ -136,14 +161,21 @@ class TweetControllerTest {
      */
     @Test
     void getRecentTweets_Success001() throws Exception {
+
+        // モックデータ
         List<TweetRecord> tweets = Arrays.asList(
                 createRecord(1, "user1", "A", null),
                 createRecord(2, "user2", "B", null)
         );
+
+        // モック設定
         when(tweetService.getRecentTweets(5)).thenReturn(tweets);
 
+        // テスト実行
         MockHttpServletRequestBuilder req = get(BASE_PATH + "/recent?limit=5");
         MvcResult result = mockMvc.perform(req).andExpect(status().isOk()).andReturn();
+
+        // テスト結果
         TweetModel[] actual = objectMapper.readValue(result.getResponse().getContentAsString(), TweetModel[].class);
         assertThat(actual.length, is(2));
         assertModel(actual[0], tweets.get(0));
@@ -158,9 +190,15 @@ class TweetControllerTest {
      */
     @Test
     void getRecentTweets_Success002() throws Exception {
+
+        // モック設定
         when(tweetService.getRecentTweets(5)).thenReturn(Collections.emptyList());
+
+        // テスト実行
         MockHttpServletRequestBuilder req = get(BASE_PATH + "/recent?limit=5");
         MvcResult result = mockMvc.perform(req).andExpect(status().isOk()).andReturn();
+
+        // テスト結果
         TweetModel[] actual = objectMapper.readValue(result.getResponse().getContentAsString(), TweetModel[].class);
         assertThat(actual.length, is(0));
         verify(tweetService, times(1)).getRecentTweets(5);
@@ -173,14 +211,21 @@ class TweetControllerTest {
      */
     @Test
     void getRecentTweetsByAccountId_Success001() throws Exception {
+
+        // モックデータ
         List<TweetRecord> tweets = Arrays.asList(
                 createRecord(1, "user1", "Hello1", null),
                 createRecord(2, "user1", "Hello2", null)
         );
+
+        // モック設定
         when(tweetService.getTweetsByAccountId("user1", 5)).thenReturn(tweets);
 
+        // テスト実行
         MockHttpServletRequestBuilder req = get(BASE_PATH + "/account/user1?limit=5");
         MvcResult result = mockMvc.perform(req).andExpect(status().isOk()).andReturn();
+
+        // テスト結果
         TweetModel[] actual = objectMapper.readValue(result.getResponse().getContentAsString(), TweetModel[].class);
         assertThat(actual.length, is(2));
         assertModel(actual[0], tweets.get(0));
@@ -195,9 +240,15 @@ class TweetControllerTest {
      */
     @Test
     void getRecentTweetsByAccountId_Success002() throws Exception {
+
+        // モック設定
         when(tweetService.getTweetsByAccountId("user1", 5)).thenReturn(Collections.emptyList());
+
+        // テスト実行
         MockHttpServletRequestBuilder req = get(BASE_PATH + "/account/user1?limit=5");
         MvcResult result = mockMvc.perform(req).andExpect(status().isOk()).andReturn();
+
+        // テスト結果
         TweetModel[] actual = objectMapper.readValue(result.getResponse().getContentAsString(), TweetModel[].class);
         assertThat(actual.length, is(0));
         verify(tweetService, times(1)).getTweetsByAccountId("user1", 5);
@@ -210,15 +261,21 @@ class TweetControllerTest {
      */
     @Test
     void insert_Success001() throws Exception {
+
+        // モックデータ
         TweetModel model = new TweetModel(0, "user1", "post", null, 0, 0, 0, 0,
                 LocalDateTime.of(2024, 4, 1, 12, 0), "Tokyo", 0);
+
+        // モック設定
         when(tweetService.postTweet(any())).thenReturn(1);
 
+        // テスト実行
         MockHttpServletRequestBuilder req = post(BASE_PATH)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(model));
-
         MvcResult result = mockMvc.perform(req).andExpect(status().isOk()).andReturn();
+
+        // テスト結果
         Map response = objectMapper.readValue(result.getResponse().getContentAsString(), Map.class);
         assertThat(response.get("message"), is("ツイート投稿成功"));
         verify(tweetService, times(1)).postTweet(any());
@@ -231,29 +288,41 @@ class TweetControllerTest {
      */
     @Test
     void insert_Error001() throws Exception {
+
+        // モックデータ
         TweetModel model = new TweetModel(0, "user1", "post", null, 0, 0, 0, 0,
                 LocalDateTime.of(2024, 4, 1, 12, 0), "Tokyo", 0);
+
+        // モック設定
         when(tweetService.postTweet(any())).thenReturn(0);
 
+        // テスト実行
         MockHttpServletRequestBuilder req = post(BASE_PATH)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(model));
-
         MvcResult result = mockMvc.perform(req).andExpect(status().isBadRequest()).andReturn();
+
+        // テスト結果
         Map response = objectMapper.readValue(result.getResponse().getContentAsString(), Map.class);
         assertThat(response.get("message"), is("ツイート投稿失敗"));
         verify(tweetService, times(1)).postTweet(any());
     }
 
+    /**
+     * ツイート登録
+     * ケース：異常系
+     * コンディション：バリデーションエラー（null）
+     */
     @Test
     void insert_Error002() throws Exception {
 
+        // モックデータ
         TweetModel model = new TweetModel();
 
+        // テスト実行
         MockHttpServletRequestBuilder req = post(BASE_PATH)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(model));
-
         mockMvc.perform(req).andExpect(status().isBadRequest());
     }
 
@@ -264,15 +333,21 @@ class TweetControllerTest {
      */
     @Test
     void update_Success001() throws Exception {
+
+        // モックデータ
         TweetModel model = new TweetModel(1, "user1", "updated", null, 0, 0, 0, 0,
                 LocalDateTime.of(2024, 4, 1, 12, 0), "Tokyo", 0);
+
+        // モック設定
         when(tweetService.updateTweet(eq(1), any())).thenReturn(1);
 
+        // テスト実行
         MockHttpServletRequestBuilder req = put(BASE_PATH + "/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(model));
-
         MvcResult result = mockMvc.perform(req).andExpect(status().isOk()).andReturn();
+
+        // テスト結果
         Map response = objectMapper.readValue(result.getResponse().getContentAsString(), Map.class);
         assertThat(response.get("message"), is("ツイート更新成功"));
         verify(tweetService, times(1)).updateTweet(eq(1), any());
@@ -285,41 +360,60 @@ class TweetControllerTest {
      */
     @Test
     void update_Error001() throws Exception {
+
+        // モックデータ
         TweetModel model = new TweetModel(1, "user1", "fail", null, 0, 0, 0, 0,
                 LocalDateTime.of(2024, 4, 1, 12, 0), "Tokyo", 0);
+
+        // モック設定
         when(tweetService.updateTweet(eq(1), any())).thenReturn(0);
 
+        // テスト実行
         MockHttpServletRequestBuilder req = put(BASE_PATH + "/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(model));
-
         MvcResult result = mockMvc.perform(req).andExpect(status().isBadRequest()).andReturn();
+
+        // テスト結果
         Map response = objectMapper.readValue(result.getResponse().getContentAsString(), Map.class);
         assertThat(response.get("message"), is("ツイート更新失敗"));
         verify(tweetService, times(1)).updateTweet(eq(1), any());
     }
 
+    /**
+     * ツイート更新
+     * ケース：異常系
+     * コンディション：バリデーションエラー（id）
+     */
     @Test
     void update_Error002() throws Exception {
+
+        // モックデータ
         TweetModel model = new TweetModel(-1, "user1", "test", null, 0, 0, 0, 0,
                 LocalDateTime.of(2024, 4, 1, 12, 0), "Tokyo", 0);
 
+        // テスト実行
         MockHttpServletRequestBuilder req = put(BASE_PATH + "/-1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(model));
-
         mockMvc.perform(req).andExpect(status().isBadRequest());
     }
 
+    /**
+     * ツイート更新
+     * ケース：異常系
+     * コンディション：バリデーションエラー（null）
+     */
     @Test
     void update_Error003() throws Exception {
 
+        // モックデータ
         TweetModel model = new TweetModel();
 
+        // テスト実行
         MockHttpServletRequestBuilder req = put(BASE_PATH + "/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(model));
-
         mockMvc.perform(req).andExpect(status().isBadRequest());
     }
 
@@ -330,10 +424,15 @@ class TweetControllerTest {
      */
     @Test
     void delete_Success001() throws Exception {
+
+        // モック設定
         when(tweetService.deleteTweet(1)).thenReturn(1);
 
+        // テスト実行
         MockHttpServletRequestBuilder req = delete(BASE_PATH + "/1");
         MvcResult result = mockMvc.perform(req).andExpect(status().isOk()).andReturn();
+
+        // テスト結果
         Map response = objectMapper.readValue(result.getResponse().getContentAsString(), Map.class);
         assertThat(response.get("message"), is("ツイート削除成功"));
         verify(tweetService, times(1)).deleteTweet(1);
@@ -346,24 +445,36 @@ class TweetControllerTest {
      */
     @Test
     void delete_Error001() throws Exception {
+
+        // モック設定
         when(tweetService.deleteTweet(1)).thenReturn(0);
 
+        // テスト実行
         MockHttpServletRequestBuilder req = delete(BASE_PATH + "/1");
         MvcResult result = mockMvc.perform(req).andExpect(status().isBadRequest()).andReturn();
+
+        // テスト結果
         Map response = objectMapper.readValue(result.getResponse().getContentAsString(), Map.class);
         assertThat(response.get("message"), is("ツイート削除失敗"));
         verify(tweetService, times(1)).deleteTweet(1);
     }
 
+    /**
+     * ツイート削除
+     * ケース：異常系
+     * コンディション：バリデーションエラー（id）
+     */
     @Test
     void delete_Error002() throws Exception {
+
+        // モックデータ
         TweetModel model = new TweetModel(-1, "user1", "test", null, 0, 0, 0, 0,
                 LocalDateTime.of(2024, 4, 1, 12, 0), "Tokyo", 0);
 
+        // テスト実行
         MockHttpServletRequestBuilder req = delete(BASE_PATH + "/-1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(model));
-
         mockMvc.perform(req).andExpect(status().isBadRequest());
     }
 

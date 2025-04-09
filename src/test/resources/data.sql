@@ -22,3 +22,14 @@ VALUES
 ('q30387', '映画を見に行きました。とても面白かったです。', NULL, 80, 25, 15, 700, '2022-07-10 18:45:30', '新宿区', 0),
 ('q30387', '今日のランチは美味しかった！', NULL, 50, 15, 8, 400, '2022-09-20 12:15:10', '世田谷区', 0),
 ('q30387', '公園でジョギングしてきました。気持ちよかった。', NULL, 90, 30, 20, 800, '2022-12-05 08:00:00', '品川区', 0);
+
+INSERT INTO SCHEDULED_TWEETS (account_id, text, image, location, scheduled_datetime, created_datetime, delete_flag) VALUES
+('user_A', 'ツイート内容1', '/src/assets/images/img01.GIF', '東京都', FORMATDATETIME(DATEADD(SECOND, 20, CURRENT_TIMESTAMP), 'yyyy-MM-dd HH:mm:ss'), FORMATDATETIME(CURRENT_TIMESTAMP, 'yyyy-MM-dd HH:mm:ss'), false),
+('user_A', 'ツイート内容2', '/src/assets/images/img02.jpg', '大阪府', FORMATDATETIME(DATEADD(SECOND, 25, CURRENT_TIMESTAMP), 'yyyy-MM-dd HH:mm:ss'), FORMATDATETIME(CURRENT_TIMESTAMP, 'yyyy-MM-dd HH:mm:ss'), false),
+('user_B', 'ツイート内容3', '/src/assets/images/img03.jpg', '北海道', FORMATDATETIME(DATEADD(SECOND, 30, CURRENT_TIMESTAMP), 'yyyy-MM-dd HH:mm:ss'), FORMATDATETIME(CURRENT_TIMESTAMP, 'yyyy-MM-dd HH:mm:ss'), false);
+
+--自分の予約ツイートデータ
+INSERT INTO SCHEDULED_TWEETS (account_id, text, image, location, scheduled_datetime, created_datetime, delete_flag) VALUES
+('q30387', 'ツイート内容1', '/src/assets/images/img01.GIF', '福岡市', FORMATDATETIME(DATEADD(SECOND, 30, CURRENT_TIMESTAMP), 'yyyy-MM-dd HH:mm:ss'), FORMATDATETIME(CURRENT_TIMESTAMP, 'yyyy-MM-dd HH:mm:ss'), false),
+('q30387', 'ツイート内容2', '/src/assets/images/img02.jpg', '福岡市', FORMATDATETIME(DATEADD(SECOND, 3000, CURRENT_TIMESTAMP), 'yyyy-MM-dd HH:mm:ss'), FORMATDATETIME(CURRENT_TIMESTAMP, 'yyyy-MM-dd HH:mm:ss'), false),
+('q30387', 'ツイート内容3', '/src/assets/images/img03.jpg', '福岡市', FORMATDATETIME(DATEADD(SECOND, 3000, CURRENT_TIMESTAMP), 'yyyy-MM-dd HH:mm:ss'), FORMATDATETIME(CURRENT_TIMESTAMP, 'yyyy-MM-dd HH:mm:ss'), false);

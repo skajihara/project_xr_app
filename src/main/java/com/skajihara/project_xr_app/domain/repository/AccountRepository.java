@@ -20,10 +20,10 @@ public interface AccountRepository extends JpaRepository<AccountRecord, String> 
     List<AccountRecord> selectAllAccounts();
 
     /**
-     * 全てのアカウント情報を取得する
+     * 1件のアカウント情報を取得する
      *
      * @param id アカウントID
-     * @return 全アカウント情報
+     * @return 1件のアカウント情報
      */
     @Query("SELECT a FROM AccountRecord a WHERE a.id = :id AND a.validFlag = 1 AND a.deleteFlag = 0")
     AccountRecord selectAccount(@Param("id") String id);
