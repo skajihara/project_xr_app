@@ -36,6 +36,6 @@ INSERT INTO SCHEDULED_TWEETS (account_id, text, image, location, scheduled_datet
 
 -- バッチ実行履歴
 INSERT INTO BATCH_HISTORY (job_name, latest_processed_id, processed_num, execution_start, execution_end, succeeded) VALUES
-('scheduledTweetsPostingJob', 100, 3, '2025-04-01 10:00:00', '2025-04-01 10:00:10', 3),
-('scheduledTweetsPostingJob', 200, 5, '2025-04-02 11:00:00', '2025-04-02 11:00:08', 4),
-('scheduledTweetsPostingJob', 300, 7, '2025-04-03 12:00:00', '2025-04-03 12:00:12', 6);
+('scheduledTweetsPostingJob', 100, 3, '2025-04-01 10:00:00', '2025-04-01 10:00:10', 1),
+('scheduledTweetsPostingJob', 200, 5, '2025-04-02 11:00:00', '2025-04-02 11:00:08', 1),
+('scheduledTweetsPostingJob', 300, 7, '2025-04-03 12:00:00', '2025-04-03 12:00:12', 1);

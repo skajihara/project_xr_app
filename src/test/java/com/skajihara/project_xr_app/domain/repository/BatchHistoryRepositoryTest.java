@@ -41,7 +41,7 @@ class BatchHistoryRepositoryTest {
         assertThat(result.getJobName(), is("scheduledTweetsPostingJob"));
         assertThat(result.getLatestProcessedId(), is(300));
         assertThat(result.getProcessedNum(), is(7));
-        assertThat(result.getSucceeded(), is(6));
+        assertThat(result.getSucceeded(), is(1));
         assertThat(result.getExecutionStart(), is(LocalDateTime.of(2025, 4, 3, 12, 0, 0)));
         assertThat(result.getExecutionEnd(), is(LocalDateTime.of(2025, 4, 3, 12, 0, 12)));
     }
@@ -80,7 +80,7 @@ class BatchHistoryRepositoryTest {
         assertThat(result.getJobName(), is("scheduledTweetsPostingJob"));
         assertThat(result.getLatestProcessedId(), is(300));
         assertThat(result.getProcessedNum(), is(7));
-        assertThat(result.getSucceeded(), is(6));
+        assertThat(result.getSucceeded(), is(1));
         assertThat(result.getExecutionStart(), is(LocalDateTime.of(2025, 4, 3, 12, 0, 0)));
         assertThat(result.getExecutionEnd(), is(LocalDateTime.of(2025, 4, 3, 12, 0, 12)));
     }
@@ -113,7 +113,7 @@ class BatchHistoryRepositoryTest {
 
         // テストデータ
         LocalDateTime now = LocalDateTime.now().withNano(0);
-        BatchHistoryRecord record = new BatchHistoryRecord(0, "scheduledTweetsPostingJob", 999, 10, now.minusSeconds(15), now, 10);
+        BatchHistoryRecord record = new BatchHistoryRecord(0, "scheduledTweetsPostingJob", 999, 10, now.minusSeconds(15), now, 1);
 
         // テスト実行
         int result = batchHistoryRepository.insert(record);
@@ -126,7 +126,7 @@ class BatchHistoryRepositoryTest {
         assertThat(inserted.getLatestProcessedId(), is(999));
         assertThat(inserted.getJobName(), is("scheduledTweetsPostingJob"));
         assertThat(inserted.getProcessedNum(), is(10));
-        assertThat(inserted.getSucceeded(), is(10));
+        assertThat(inserted.getSucceeded(), is(1));
         assertThat(inserted.getExecutionStart(), is(record.getExecutionStart()));
         assertThat(inserted.getExecutionEnd(), is(record.getExecutionEnd()));
     }
@@ -152,7 +152,7 @@ class BatchHistoryRepositoryTest {
                 original.getProcessedNum() + 1,
                 original.getExecutionStart(),
                 now,
-                original.getSucceeded() + 1
+                original.getSucceeded()
         );
 
         // テスト実行
