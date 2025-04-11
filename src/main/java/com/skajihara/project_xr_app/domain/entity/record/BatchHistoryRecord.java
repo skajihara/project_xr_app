@@ -16,6 +16,9 @@ public class BatchHistoryRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(name = "job_name", nullable = false)
+    private String jobName;
+
     @Column(name = "latest_processed_id", nullable = false)
     private int latestProcessedId;
 

@@ -58,6 +58,7 @@ CREATE INDEX idx_scheduled_tweets_delete_flag ON SCHEDULED_TWEETS (delete_flag);
 -- Create BATCH_HISTORY table
 CREATE TABLE IF NOT EXISTS BATCH_HISTORY (
     id INT AUTO_INCREMENT PRIMARY KEY,
+    job_name VARCHAR(50) NOT NULL,
     latest_processed_id INT NOT NULL,
     processed_num INT NOT NULL,
     execution_start DATETIME(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,

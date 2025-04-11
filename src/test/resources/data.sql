@@ -35,7 +35,7 @@ INSERT INTO SCHEDULED_TWEETS (account_id, text, image, location, scheduled_datet
 ('q30387', 'ツイート内容3', '/src/assets/images/img03.jpg', '福岡市', FORMATDATETIME(DATEADD(SECOND, 3000, CURRENT_TIMESTAMP), 'yyyy-MM-dd HH:mm:ss'), FORMATDATETIME(CURRENT_TIMESTAMP, 'yyyy-MM-dd HH:mm:ss'), false);
 
 -- バッチ実行履歴
-INSERT INTO BATCH_HISTORY (latest_processed_id, processed_num, execution_start, execution_end, succeeded) VALUES
-(100, 3, '2025-04-01 10:00:00', '2025-04-01 10:00:10', 3),
-(200, 5, '2025-04-02 11:00:00', '2025-04-02 11:00:08', 4),
-(300, 7, '2025-04-03 12:00:00', '2025-04-03 12:00:12', 6);
+INSERT INTO BATCH_HISTORY (job_name, latest_processed_id, processed_num, execution_start, execution_end, succeeded) VALUES
+('scheduledTweetsPostingJob', 100, 3, '2025-04-01 10:00:00', '2025-04-01 10:00:10', 3),
+('scheduledTweetsPostingJob', 200, 5, '2025-04-02 11:00:00', '2025-04-02 11:00:08', 4),
+('scheduledTweetsPostingJob', 300, 7, '2025-04-03 12:00:00', '2025-04-03 12:00:12', 6);
