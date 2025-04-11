@@ -25,7 +25,7 @@ public interface BatchHistoryRepository extends JpaRepository<BatchHistoryRecord
      *
      * @return 最新のバッチ履歴情報
      */
-    @Query("SELECT bh FROM BatchHistoryRecord bh WHERE bh.jobName = :jobName ORDER BY executionEnd DESC LIMIT 1")
+    @Query("SELECT bh FROM BatchHistoryRecord bh WHERE bh.jobName = :jobName AND bh.executionEnd IS NOT NULL ORDER BY executionEnd DESC LIMIT 1")
     BatchHistoryRecord selectLatestRecord(@Param("jobName") String jobName);
 
     /**
