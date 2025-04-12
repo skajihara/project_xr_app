@@ -67,7 +67,7 @@ public interface TweetRepository extends JpaRepository<TweetRecord, Integer> {
      *
      * @param tweetId 更新対象ツイートID
      * @param tweet   　更新ツイート情報
-     * @return 更新結果
+     * @return 更新件数
      */
     @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Transactional
@@ -87,7 +87,7 @@ public interface TweetRepository extends JpaRepository<TweetRecord, Integer> {
      * 1件のツイート情報を削除する
      *
      * @param tweetId 削除対象ツイートID
-     * @return 削除結果
+     * @return 削除件数
      */
     @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Transactional

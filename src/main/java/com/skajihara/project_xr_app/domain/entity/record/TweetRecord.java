@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class TweetRecord {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @Column(nullable = false, length = 20)
     private String accountId;
