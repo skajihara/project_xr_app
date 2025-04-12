@@ -60,7 +60,7 @@ public class ScheduledTweetsPostingTasklet implements Tasklet {
 
             log.info("start tweets posting.");
             for (ScheduledTweetRecord scheduledTweet : scheduledTweets) {
-                // TweetRecordをコンストラクタで安全生成（null回避）
+                // ツイートを生成して投稿
                 TweetRecord tweet = new TweetRecord(
                         null, // idは自動採番
                         scheduledTweet.getAccountId(),
