@@ -32,9 +32,9 @@ import static org.hamcrest.Matchers.notNullValue;
 class ScheduledTweetsBatchConfigTest {
 
     // レコードにもテーブルにも文字数やNULL禁止を設定しているため
-    // Tasklet内で自然なエラーを起こせない
+    // Tasklet内で自然なエラーを起こせないはず
+    // 条件設定が複雑な割に意味のあるテストとは言えない気がするため
     // TaskletやRepositoryをモックするような不自然なエラーはテスト対象外とする
-    // 条件設定が複雑な割に意味のあるテストとは言えない気がする
 
     @Autowired
     JobLauncherTestUtils jobLauncherTestUtils;
