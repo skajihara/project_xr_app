@@ -41,7 +41,7 @@ VALUES
 ('user_28','Asahi Ito','デザインとプログラミングの両方をしています。','/icons/account/kkrn_icon_user_14.svg','/images/header/h09.jpg','福島県','1982-01-14','2012-03-15',2,4,1,0),
 ('user_29','Yui Tanaka','Vue.jsを学んでいます。','/icons/account/kkrn_icon_user_1.svg','/images/header/h10.jpg','青森県','1986-11-06','2014-06-10',5,7,1,0),
 ('user_30','Sora Yamada','Webデザインに興味があります。','/icons/account/kkrn_icon_user_2.svg','/images/header/h01.jpg','佐賀県','1994-04-03','2019-02-14',7,9,1,0),
-('q','Shingo Kajihara','最近はVue.jsを学習中です。','/icons/account/azarashi.svg','/images/header/h01.jpg','東京都','1985-05-23','2015-06-15',10,15,1,0);
+('q','Shingo Kajihara','最近はVue.jsを学習中です。','/icons/account/azarashi.png','/images/header/h01.jpg','東京都','1985-05-23','2015-06-15',10,15,1,0);
 
 INSERT INTO TWEETS (account_id, text, image, likes, retweets, replies, views, datetime, location, delete_flag)
 VALUES
